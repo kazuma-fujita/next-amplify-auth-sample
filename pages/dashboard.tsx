@@ -1,17 +1,13 @@
-import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from "next";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { useState, useEffect } from "react";
-import Amplify, { Auth } from "aws-amplify";
-import { AmplifySignOut } from "@aws-amplify/ui-react";
-import {
-  CognitoUserInterface,
-  onAuthUIStateChange,
-  AuthState,
-} from "@aws-amplify/ui-components";
-import awsconfig from "../src/aws-exports";
-import styles from "../styles/Home.module.css";
-import { Path } from "../src/constants";
+import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from 'next';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import Amplify, { Auth } from 'aws-amplify';
+import { AmplifySignOut } from '@aws-amplify/ui-react';
+import { CognitoUserInterface, onAuthUIStateChange, AuthState } from '@aws-amplify/ui-components';
+import awsconfig from '../src/aws-exports';
+import styles from '../styles/Home.module.css';
+import { Path } from '../src/constants';
 
 Amplify.configure(awsconfig);
 
@@ -27,6 +23,9 @@ const DashboardPage: NextPage<Props> = (props: Props) => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         setUser(user);
+        const groups = user.signInUserSession.accessToken.payload['cognito:groups'];
+        console.log('user:', user);
+        console.log('groups:', groups);
       } catch (error) {
         // 未認証の場合The user is not authenticatedが発生する
         router.replace(Path.Index);
@@ -62,7 +61,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   return {
     props: {
       nowDate: new Date().toLocaleString(),
-      pageTitle: "Dashboard",
+      pageTitle: 'Dashboard',
     },
   };
 };
