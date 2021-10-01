@@ -1,4 +1,4 @@
-export declare enum Path {
+export enum Path {
   Index = "/",
   Dashboard = "dashboard",
 }

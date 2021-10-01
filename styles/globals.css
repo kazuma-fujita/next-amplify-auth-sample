@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
 }
 
 a {
@@ -13,4 +13,19 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --amplify-primary-color: #29b6f6;
+  --amplify-primary-tint: #4fc3f7;
+  --amplify-primary-shade: #0288d1;
+  --amplify-tertiary-color: #ce93d8;
+  --amplify-secondary-tint: #d0a3db;
+  --amplify-secondary-shade: #ab47bc;
+  /* --amplify-text-xs: 1rem;
+  --amplify-text-sm: 1.2rem; */
+}
+
+amplify-authenticator {
+  --container-height: 100%;
 }

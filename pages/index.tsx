@@ -1,13 +1,13 @@
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { useEffect } from "react";
-import Amplify, { Auth } from "aws-amplify";
-import { AmplifyAuthenticator } from "@aws-amplify/ui-react";
-import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
-import awsconfig from "../src/aws-exports";
-import styles from "../styles/Home.module.css";
-import { Path } from "../src/constants";
+import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import { useEffect } from 'react';
+import Amplify, { Auth } from 'aws-amplify';
+import { AmplifyAuthenticator, AmplifySignIn, AmplifySignUp, AmplifyVerifyContact } from '@aws-amplify/ui-react';
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import awsconfig from '../src/aws-exports';
+import styles from '../styles/Home.module.css';
+import { Path } from '../src/constants';
 
 Amplify.configure(awsconfig);
 
@@ -26,6 +26,7 @@ const AuthPage: React.FC<Props> = (props: Props) => {
       } catch (error) {}
     })();
     return onAuthUIStateChange((nextAuthState, authData) => {
+      console.log('nextAuthState:', nextAuthState);
       if (nextAuthState === AuthState.SignedIn && authData) {
         router.replace(Path.Dashboard);
       }
@@ -37,7 +38,13 @@ const AuthPage: React.FC<Props> = (props: Props) => {
       <Head>
         <title>{props.pageTitle}</title>
       </Head>
-      <AmplifyAuthenticator />
+      <h1 className={styles.title}>{props.pageTitle}</h1>
+      <AmplifyAuthenticator usernameAlias='email'>
+        <AmplifyVerifyContact />
+        <AmplifySignIn slot='sign-in' hideSignUp={true} />
+        <AmplifySignUp slot='sign-up' formFields={[{ type: 'username' }, { type: 'password' }]} />
+      </AmplifyAuthenticator>
+      <div>サインインしますと利用規約に同意したことになります</div>
     </div>
   );
 };
@@ -47,7 +54,7 @@ export default AuthPage;
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   return {
     props: {
-      pageTitle: "Authentication",
+      pageTitle: 'Authentication',
     },
   };
 };
