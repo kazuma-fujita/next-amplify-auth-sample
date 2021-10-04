@@ -1,0 +1,20 @@
+type Task
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admins"], operations: [create, update, delete, read] }
+      { allow: groups, groups: ["Operators"], queries: [get, list], mutations: null }
+      # { allow: owner, ownerField: "editors", queries: [get, list], mutations: [update] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String
+  status: String
+  # editors: [String]!
+}
+
+type PrivateNote @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  content: String!
+}
